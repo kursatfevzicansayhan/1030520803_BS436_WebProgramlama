@@ -1,4 +1,4 @@
-Öğrenci Numarası: 103052080
+Öğrenci Numarası: 1030520803
 
 Öğrenci Adı: Kürşat Fevzican Şayhan
 
