@@ -12,14 +12,22 @@ test('Kart Sayısı',()=>{
     checkGame(driver);
 });
 
-test('Kart Click',()=>{
-    const driver = mount(<Game/>);
-    checkGame(driver);
-    for(let i=0;i<3;i++)
-    {
-        let card = driver.find('.kart').at(i);
-        let idName = card.prop("id");
-        expect(idName === 'img0'||idName === 'img1'||idName === 'img2').toBeTruthy();
+test("kedi", () => {
+    let driver = mount(<Game/>);
+
+    for(let i = 0; i < 3; i++){
+        let card = driver.find(".kart").at(i);
+        card.simulate("click");
+        card = driver.find(".kart").at(i);
+        const srcName = card.find("img").prop("src");
+
+        checkGame(driver);
+
+        if(srcName != "img/dog.png"){
+            expect(srcName).toBe("img/cat.png");
+        }
+
+        driver = mount(<Game/>);
     }
 
 });
@@ -39,15 +47,12 @@ test('Kart Doğru Mu ?',()=>{
 test('Kart Çevir',()=>{
     const driver = mount(<Game/>);
     checkGame(driver);
-    for(let i=0;i<3;i++)
-    {
-        let card = driver.find('.kart').at(i);
-        let srcName = card.find('img').prop("src");
-        card.simulate('click');
-        console.log(srcName);
-        expect(srcName === 'img/cat.png' || srcName ==='img/dog.png').toBeDefined();
 
-        //toBeTruthy() fonksiyonu kullandığımda cat.png veya dog.png yerine card.png dönüyor
-        //Fakat kodu 'yarn dev' ile çalıştırdığımda sorunsuz çalışıyor
-    }
+    let card = driver.find(".kart").at(0);
+    card.simulate("click");
+    card = driver.find(".kart").at(0);
+    const srcName = card.find("img").prop("src");
+    console.log(srcName);
+    expect(srcName === 'img/cat.png' || srcName ==='img/dog.png').toBeTruthy();
+
 });
