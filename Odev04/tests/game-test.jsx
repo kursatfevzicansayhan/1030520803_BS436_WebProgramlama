@@ -7,26 +7,44 @@ const checkGame = (driver) =>{
     expect(card.length).toEqual(3);
 }
 
-
-test('Oyun Oluşturuldu',()=>{
+test('Kart Sayısı',()=>{
     const driver = mount(<Game/>);
     checkGame(driver);
 });
 
-test("kart bul",()=>{
+test('Kart Click',()=>{
     const driver = mount(<Game/>);
     checkGame(driver);
-    let card = driver.find('.kart').at(0);
-    let srcName = card.prop("src");
+    for(let i=0;i<3;i++)
+    {
+        let card = driver.find('.kart').at(i);
+        let idName = card.prop("id");
+        expect(idName === 'img0'||idName === 'img1'||idName === 'img2').toBeTruthy();
+    }
 
+});
 
-    console.log(srcName);
-    card.simulate('click');
-    //Click eventinde takılıyor
-    // 32.satırda TypeError: Cannot set property 'src' of null hatası alıyorum
-    //Ama kodu "yarn dev" ile normal çalıştırdığımda çalışıyor.
+test('Kart Doğru Mu ?',()=>{
+    const driver = mount(<Game/>);
+    checkGame(driver);
+    for(let i=0;i<3;i++)
+    {
+        let card = driver.find('.kart').at(i);
+        let srcName = card.prop("src");
+        expect(srcName === 'img/card.png').toBeDefined();
+    }
 
-    expect(srcName === 'img/cat.png' || srcName ==='img/dog.png').toBeTruthy();
+});
 
-
+test('Kart Çevir',()=>{
+    const driver = mount(<Game/>);
+    checkGame(driver);
+    for(let i=0;i<3;i++)
+    {
+        let card = driver.find('.kart').at(i);
+        let srcName = card.find('img').prop("src");
+        card.simulate('click');
+        console.log(srcName);
+        expect(srcName === 'img/cat.png' || srcName ==='img/dog.png').toBeDefined();
+    }
 });

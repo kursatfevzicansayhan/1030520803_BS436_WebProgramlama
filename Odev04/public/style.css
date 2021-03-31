@@ -20,5 +20,5 @@ html, body {
     color: blue;
     cursor: pointer;
     text-decoration: underline;
-    display: none;
+    display: block;
 }

@@ -1,68 +1,74 @@
 import React, {Component} from 'react';
 
-let pics = [
-    'img/cat.png' ,
-    'img/dog.png',
-    'img/dog.png'
-]
-
-let counter =0;
-
-
-let indis = [0,1,2];
-function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        let temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
-    return arr;
-}
-shuffle(indis);
-
 export class Game extends Component {
 
-
-    handleClick = (id) => {
-
-        const image = document.getElementById(id);
-        const pic = pics[indis[indis.length-1]];
-
-        image.src = pic;
-        counter = counter + 1;
-        indis.pop()
-
-        if(pic === "img/cat.png")
-        {
-            console.log("kazandınız");
-            document.getElementById("kazandiId").style.display="inline"
-            document.getElementById("kazandiId").innerText = "Kazandınız";
-            document.getElementById("newgame").style.display="inline"
-            document.getElementById("img0").onclick=null;
-        }
-
-        else if(pic !== "img/cat.png" && counter === 2)
-        {
-            console.log("kaybettiniz");
-            document.getElementById("yenildiId").style.display="inline";
-            document.getElementById("yenildiId").innerHTML = "KAYBETTİNİZ";
-            document.getElementById("newgame").style.display="inline";
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            cat: Math.floor(Math.random()*3),
+            durum: undefined,
+            card: ["img/card.png","img/card.png","img/card.png"],
+            counter: 0,
+            gameover: false
         }
     }
+    turnCard = (index) => {
+        const { card, cat, counter, gameover } = this.state;
+
+        if(!gameover){
+            const yeniKart = [...card];
+            let durum;
+
+            if(cat===index){
+                yeniKart[index] = "img/cat.png";
+                durum = "!! Kazandınız !!"
+            }else {
+                yeniKart[index] = "img/dog.png";
+                if(counter===1){
+                    durum = "! Kaybettiniz !"
+                }
+            }
+            this.setState({
+                card:yeniKart,
+                counter: this.state.counter+1,
+                durum
+            });
+
+            if(durum){
+                this.setState({
+                    gameover: true
+                })
+            }
+        }
+    }
+
+    yeniOyun = () => {
+        this.setState({
+            cat: Math.floor(Math.random()*3),
+            durum: undefined,
+            card: ["img/card.png","img/card.png","img/card.png"],
+            counter: 0,
+            gameover: false
+        })
+    }
+
 
 
     render() {
-
+        const {card,durum} = this.state;
         return(
             <div>
-                <img id='img0' className="kart" src='img/card.png' onClick={((e) => this.handleClick("img0"))}></img>
-                <img id='img1' className="kart" src='img/card.png' onClick={((e) => this.handleClick("img1"))}></img>
-                <img id='img2' className="kart" src='img/card.png' onClick={((e) => this.handleClick("img2"))}></img>
-
-
+                <img id='img0' className="kart" src={card[0]} onClick={()=>{this.turnCard(0)}}></img>
+                <img id='img1' className="kart" src={card[1]} onClick={()=>{this.turnCard(1)}}></img>
+                <img id='img2' className="kart" src={card[2]} onClick={()=>{this.turnCard(2)}}></img>
+                <div className="mesaj">
+                    <p>{durum?durum:"Kedi kartını bulmak için kartın üzerine tıklamalısın."}</p>
+                    {durum && <p>
+                        Yeni bir oyun oynamak istersen <span onClick={this.yeniOyun} className='link'>buraya</span> tıklayabilirsin.
+                    </p>}
+                </div>
             </div>
+
         )
     }
 
