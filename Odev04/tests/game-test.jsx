@@ -46,5 +46,8 @@ test('Kart Çevir',()=>{
         card.simulate('click');
         console.log(srcName);
         expect(srcName === 'img/cat.png' || srcName ==='img/dog.png').toBeDefined();
+
+        //toBeTruthy() fonksiyonu kullandığımda cat.png veya dog.png yerine card.png dönüyor
+        //Fakat kodu 'yarn dev' ile çalıştırdığımda sorunsuz çalışıyor
     }
 });
