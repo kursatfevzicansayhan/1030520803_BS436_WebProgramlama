@@ -20,7 +20,6 @@ function shuffle(arr) {
     return arr;
 }
 shuffle(indis);
-console.log(indis);
 
 export class Game extends Component {
 
@@ -29,6 +28,7 @@ export class Game extends Component {
 
         const image = document.getElementById(id);
         const pic = pics[indis[indis.length-1]];
+
         image.src = pic;
         counter = counter + 1;
         indis.pop()
